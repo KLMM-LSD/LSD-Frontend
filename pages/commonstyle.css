@@ -2,8 +2,21 @@ h1 {
 	max-width:	800pt;
 }
 
-h1, div, a {
+h1, div, a, td, th {
 	font-family:	Arial;
+}
+
+td, th {
+	border:		1px solid black;
+	padding:	3pt;
+}
+
+th {
+	background-color:	#EFEFEF;
+}
+
+table {
+	border-collapse:	collapse;
 }
 
 hr {
@@ -28,4 +41,5 @@ div.content {
 	padding:		2pt 2em;
 	color:			black;
 }
+
 
