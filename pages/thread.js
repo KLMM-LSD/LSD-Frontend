@@ -19,8 +19,6 @@ function build_one(idx)
 
 function build_posts()
 {
-	console.log(json);
-
 	if (json["len"] == 0) {
 		built_string = "No such post";
 		return;
