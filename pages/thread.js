@@ -1,25 +1,43 @@
+var json;
 var comments_id, xhttp, built_string;
 
-function parse(post)
+function build_one(idx)
 {
-	var ret = "<div class=\"post\">" + post["author"];
-	ret += "<div class=\"content\">" + post["comment"];
-	ret += "</div></div>";
+	var postid = json["arr_postid"][idx];
+	var postparentid = json["arr_postparentid"][idx];
+	var authorid = json["arr_postauthorid"][idx];
+	var content = json["arr_postcontent"][idx];
 
-	return ret;
+	built_string += "<div>#" + postid;
+	built_string += " | Author " + authorid;
+	if (idx != 0 || !json["first_is_story"])
+		built_string += " | Re " + postparentid;
+	built_string += "</div>";
+	built_string += "<div>" + content + "</div>";
+	built_string += "<hr/>";
+}
+
+function build_posts()
+{
+	console.log(json);
+
+	if (json["len"] == 0) {
+		built_string = "No such post";
+		return;
+	}
+
+	for (var i = 0; i != json["len"]; i++)
+		build_one(i);
 }
 
 function fetch_comments()
 {
-	var json;
 
 	if (xhttp.readyState != 4 || xhttp.status != 200)
 		return;
 
 	json = JSON.parse(xhttp.responseText);
-	json["replies"].forEach(function(cur){
-		built_string += parse(cur);
-	});
+	build_posts();
 
 	comments_id.innerHTML = built_string;
 }
@@ -28,10 +46,10 @@ function main()
 {
 	comments_id	= document.getElementById("comments");
 	xhttp		= new XMLHttpRequest();
-	built_string	= "Ready<br/>";
+	built_string	= "";
 
 	xhttp.onreadystatechange = fetch_comments;
-	xhttp.open("GET", "thread.json");
+	xhttp.open("GET", "api/thread" + window.location.search);
 	xhttp.send();
 }
 

@@ -4,7 +4,7 @@ var len, arr_postid, arr_postauthorid, arr_postcontent;
 function append_entry(idx)
 {
 	built_string += "<tr><td>"
-	built_string += arr_postid[idx];
+	built_string += "<a href=\"thread.html?id=" + arr_postid[idx] + "\">" + arr_postid[idx] + "</a>";
 	built_string += "</td><td>"
 	built_string += arr_postcontent[idx];
 	built_string += "</td><td>"
@@ -20,6 +20,7 @@ function fetch_threads()
 		return;
 	
 	json 		= JSON.parse(xhttp.responseText);
+
 	len		= json["len"];
 	arr_postid	= json["arr_postid"];
 	arr_postauthorid= json["arr_postauthorid"];
@@ -40,7 +41,7 @@ function main()
 	built_string	= "Ready<br/>";
 
 	xhttp.onreadystatechange = fetch_threads;
-	xhttp.open("GET", "frontpage.json");
+	xhttp.open("GET", "api/frontpage");
 	xhttp.send();
 }
 
